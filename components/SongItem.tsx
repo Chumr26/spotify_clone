@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import useLoadImage from '@/hooks/useLoadImage';
+import useLoadImageUrl from '@/hooks/useLoadImageUrl';
 
 import { Song } from '@/types';
 
@@ -14,7 +14,7 @@ interface SongItemProps {
 }
 
 const SongItem = ({ data, onClick }: SongItemProps) => {
-    const imagePath = useLoadImage(data);
+    const imagePath = useLoadImageUrl(data);
 
     return (
         <div
