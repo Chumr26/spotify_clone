@@ -78,7 +78,7 @@ export async function POST(request: Request) {
                     throw new Error('Unhandled relevant event!');
             }
         } catch (error) {
-            console.log(error);
+            console.log('Relevant Events: ', error);
             return new NextResponse(`Webhook Error: ${error}`, {
                 status: 400,
             });

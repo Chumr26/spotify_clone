@@ -6,7 +6,6 @@ import { Price, Product } from '@/types';
 
 import { stripe } from './stripe';
 import { toDateTime } from './helpers';
-import { Princess_Sofia } from 'next/font/google';
 
 export const supabaseAdmin = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
