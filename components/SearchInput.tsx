@@ -22,7 +22,7 @@ const SearchInput = () => {
             query: query,
         });
         router.push(url);
-    }, [debouncedValue]); //[debouncedValue, router]
+    }, [debouncedValue, router]);
     return (
         <Input
             placeholder="What do you want to listen to ?"
