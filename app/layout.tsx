@@ -6,8 +6,11 @@ import ToasterProvider from '@/providers/ToasterProvider';
 import SupabaseProvider from '@/providers/SupabaseProvider';
 import UserProvider from '@/providers/UserProvider';
 import ModalProvider from '@/providers/ModalProvider';
-import Sidebar from '@/components/Sidebar';
+
 import getSongsByUserId from '@/actions/getSongsByUserId';
+
+import Sidebar from '@/components/Sidebar';
+import Player from '@/components/Player';
 
 export const revalidate = 0;
 
@@ -33,6 +36,7 @@ export default async function RootLayout({
                     <UserProvider>
                         <ModalProvider />
                         <Sidebar songs={userSongs}>{children}</Sidebar>
+                        <Player />
                     </UserProvider>
                 </SupabaseProvider>
             </body>
