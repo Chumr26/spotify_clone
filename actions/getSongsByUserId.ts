@@ -12,21 +12,26 @@ const getSongsByUserId = async (): Promise<Song[]> => {
         await supabase.auth.getSession();
 
     if (sessionError) {
-        console.log(sessionError.message);
+        console.log('sessionError: ', sessionError.message);
         return [];
     }
 
-    const { data, error } = await supabase
-        .from('songs')
-        .select('*')
-        .eq('user_id', sessionData.session?.user.id)
-        .order('created_at', { ascending: false });
+    // If the current session has user
+    if (sessionData.session?.user.id) {
+        const { data, error } = await supabase
+            .from('songs')
+            .select('*')
+            .eq('user_id', sessionData.session?.user.id)
+            .order('created_at', { ascending: false });
 
-    if (error) {
-        console.log(error.message);
+        if (error) {
+            console.log('getSongsByUserId: ', error.message);
+        } else {
+            return data as any;
+        }
     }
 
-    return (data as any) || [];
+    return [];
 };
 
 export default getSongsByUserId;
