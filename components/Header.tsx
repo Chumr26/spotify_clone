@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import useAuthModal from '@/hooks/useAuthModal';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUser } from '@/hooks/useUser';
+import usePlayer from '@/hooks/usePlayer';
 
 interface HeaderProps {
     children: React.ReactNode;
@@ -24,10 +25,11 @@ export default function Header({ children, className }: HeaderProps) {
     const authModal = useAuthModal();
     const supabaseClient = useSupabaseClient();
     const { user } = useUser();
+    const player = usePlayer();
 
     async function handleLogout() {
         const { error } = await supabaseClient.auth.signOut();
-        // TODO: Reset any playing songs
+        player.reset();
         router.refresh();
         if (error) {
             toast.error(error.message);
@@ -35,6 +37,7 @@ export default function Header({ children, className }: HeaderProps) {
             toast.success('Logged out!');
         }
     }
+
     return (
         <div
             className={twMerge(
