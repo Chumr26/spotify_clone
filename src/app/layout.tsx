@@ -3,6 +3,8 @@ import { Figtree } from 'next/font/google';
 
 import './globals.tailwind.css';
 import Sidebar from '@/components/Sidebar';
+import SupabaseProvider from '@/provider/SupabaseProvider';
+import ModalProvider from '@/provider/ModalProvider';
 
 const font = Figtree({ subsets: ['latin'] });
 
@@ -19,7 +21,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={font.className}>
-                <Sidebar>{children}</Sidebar>
+                <SupabaseProvider>
+                    <ModalProvider />
+                    <Sidebar>{children}</Sidebar>
+                </SupabaseProvider>
             </body>
         </html>
     );
