@@ -83,17 +83,17 @@ export interface Database {
       users: {
         Row: {
           avatar_url: string | null
-          full_name: string | null
+          user_name: string | null
           id: string
         }
         Insert: {
           avatar_url?: string | null
-          full_name?: string | null
+          user_name?: string | null
           id: string
         }
         Update: {
           avatar_url?: string | null
-          full_name?: string | null
+          user_name?: string | null
           id?: string
         }
         Relationships: [
