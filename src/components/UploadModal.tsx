@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import uniqid from 'uniqid';
+import toast from 'react-hot-toast';
+import { BounceLoader } from 'react-spinners';
 
 import useUploadModal from '@/hooks/useUploadModal';
 import Modal from './Modal';
 import Input from './Input';
 import Button from './Button';
-import { error } from 'console';
 
 const UploadModal = () => {
     const { isOpen, handleClose } = useUploadModal();
@@ -22,7 +26,11 @@ const UploadModal = () => {
             poster: null,
         },
     });
-    const [isLoading, setIsLoading] = useState();
+    const router = useRouter();
+    const supabaseClient = useSupabaseClient();
+    const user = useUser();
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleChange = (open: boolean) => {
         if (!open) {
             reset();
@@ -30,8 +38,63 @@ const UploadModal = () => {
         }
     };
 
-    const onSubmit: SubmitHandler<FieldValues> = (values) => {
-        console.log(errors.root);
+    const onSubmit: SubmitHandler<FieldValues> = async (values) => {
+        setIsLoading(true);
+        const uniqueId = uniqid();
+        try {
+            // upload song
+            const { data: songData, error: songError } =
+                await supabaseClient.storage
+                    .from('songs')
+                    .upload(`song-${uniqueId}`, values.song[0], {
+                        cacheControl: '3600',
+                        upsert: false,
+                    });
+            if (songError) {
+                setIsLoading(false);
+                console.log('songError: ', songError);
+                return toast.error('Fail song upload.');
+            }
+            // upload poster
+            const { data: posterData, error: posterError } =
+                await supabaseClient.storage
+                    .from('posters')
+                    .upload(`poster-${uniqueId}`, values.poster[0], {
+                        cacheControl: '3600',
+                        upsert: false,
+                    });
+            if (posterError) {
+                setIsLoading(false);
+                console.log('posterError Error: ', posterError);
+                return toast.error('Fail poster upload.');
+            }
+            // insert record
+            const { error: insertError } = await supabaseClient
+                .from('songs')
+                .insert({
+                    user_id: user!.id,
+                    title: values.title,
+                    author: values.author,
+                    song_path: songData.path,
+                    poster_path: posterData.path,
+                });
+
+            if (insertError) {
+                setIsLoading(false);
+                console.log('insertError: ', insertError);
+                return toast.error('Insert table error.');
+            }
+            // success
+            handleClose();
+            reset();
+            router.refresh();
+            toast.success('Song added!');
+        } catch (error) {
+            toast.error('Upload Error');
+            console.log('Upload Error: ', (error as Error).message);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -79,8 +142,12 @@ const UploadModal = () => {
                         className="cursor-pointer"
                     />
                 </div>
-                <Button type="submit" disabled={isLoading}>
-                    Create
+                <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="flex justify-center"
+                >
+                    {isLoading ? <BounceLoader size={24} /> : 'Create'}
                 </Button>
                 {Object.keys(errors).length > 0 ? (
                     <p className="text-center text-orange-400">
