@@ -6,7 +6,10 @@ import { useUser } from '@supabase/auth-helpers-react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { TbPlaylist } from 'react-icons/tb';
 
-const Library = () => {
+import { Song } from '@/types';
+import MediaItem from './MediaItem';
+
+const Library = ({ songs }: { songs: Song[] }) => {
     const authModal = useAuthModal();
     const uploadModal = useUploadModal();
     const user = useUser();
@@ -29,7 +32,11 @@ const Library = () => {
                     className="cursor-pointer hover:text-white transition"
                 />
             </div>
-            <div className="flex flex-col gap-y-2 mt-4 px-3">List of songs</div>
+            <div className="flex flex-col gap-y-2 mt-4 px-3">
+                {songs.map((song) => (
+                    <MediaItem key={song.id} song={song} />
+                ))}
+            </div>
         </div>
     );
 };

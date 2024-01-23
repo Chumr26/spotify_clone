@@ -1,4 +1,4 @@
-import type { Song } from '@/actions/getSongs';
+import type { Song } from '@/types';
 import SongItem from '@/components/SongItem';
 
 const PageContent = ({ songs }: { songs: Song[] }) => {

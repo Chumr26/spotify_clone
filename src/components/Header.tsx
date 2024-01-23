@@ -11,12 +11,14 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import Button from './Button';
 import useAuthModal from '@/hooks/useAuthModal';
 import { FaUserAlt } from 'react-icons/fa';
+import { twMerge } from 'tailwind-merge';
 
 interface HeaderProps {
     children: React.ReactNode;
+    className: string;
 }
 
-const Header = ({ children }: HeaderProps) => {
+const Header = ({ children, className }: HeaderProps) => {
     const router = useRouter();
     const authModal = useAuthModal();
     const user = useUser();
@@ -25,14 +27,19 @@ const Header = ({ children }: HeaderProps) => {
         const { error } = await supabaseClient.auth.signOut();
         router.refresh();
         if (error) {
-            toast.error(error.message)
+            toast.error(error.message);
             console.log('handleLogout Error: ', error);
         } else {
-            toast.success('Logged out!')
+            toast.success('Logged out!');
         }
     };
     return (
-        <div className="bg-gradient-to-b from-emerald-800 p-6">
+        <div
+            className={twMerge(
+                'bg-gradient-to-b from-emerald-800 p-6',
+                className
+            )}
+        >
             <div className="mb-4 flex justify-between">
                 <div className="hidden md:flex gap-x-2 items-center">
                     <button

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import type { Song } from '@/actions/getSongs';
+import type { Song } from '@/types';
 import useLoadPoster from '@/hooks/useLoadPoster';
 import PlayButton from './PlayButton';
 
@@ -21,7 +21,7 @@ const SongItem = ({ song }: { song: Song }) => {
                 />
             </div>
             <div className="pt-4 gap-y-5">
-                <p className="font-semibold">{song.title}</p>
+                <p className="font-semibold truncate">{song.title}</p>
                 <p className="text-neutral-400 text-sm pt-1 pb-4">
                     By {song.author}
                 </p>
