@@ -1,17 +1,20 @@
 'use client';
 
+import { useUser } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FaPlay } from 'react-icons/fa';
 
-interface ListItemProps {
+interface LikedListProps {
     image: string;
     name: string;
     href: string;
 }
 
-const ListItem = ({ image, name, href }: ListItemProps) => {
+const LikedList = ({ image, name, href }: LikedListProps) => {
     const router = useRouter();
+    const user = useUser();
+    if (!user) return null;
 
     const handleClick = () => router.push(href);
     return (
@@ -30,4 +33,4 @@ const ListItem = ({ image, name, href }: ListItemProps) => {
     );
 };
 
-export default ListItem;
+export default LikedList;

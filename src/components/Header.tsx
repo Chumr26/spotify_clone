@@ -15,7 +15,7 @@ import { twMerge } from 'tailwind-merge';
 
 interface HeaderProps {
     children: React.ReactNode;
-    className: string;
+    className?: string;
 }
 
 const Header = ({ children, className }: HeaderProps) => {
