@@ -1,18 +1,15 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { BiSearch } from 'react-icons/bi';
 import { HiHome } from 'react-icons/hi';
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx';
-import { FaUserAlt } from 'react-icons/fa';
-import toast from 'react-hot-toast';
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import { useUser } from '@supabase/auth-helpers-react';
 import { twMerge } from 'tailwind-merge';
 
 import Button from './Button';
 import useAuthModal from '@/hooks/useAuthModal';
-import usePlayer from '@/hooks/usePlayer';
+import Account from './Account';
 
 interface HeaderProps {
     children: React.ReactNode;
@@ -23,26 +20,7 @@ const Header = ({ children, className }: HeaderProps) => {
     const router = useRouter();
     const authModal = useAuthModal();
     const user = useUser();
-    const supabaseClient = useSupabaseClient();
 
-    const player = usePlayer();
-
-    const handleLogout = async () => {
-        const { error } = await supabaseClient.auth.signOut();
-        player.reset();
-        router.refresh();
-        if (error) {
-            toast.error(error.message);
-            console.log(
-                'handleLogout Error: ',
-                error,
-                'Date: ',
-                new Date().toLocaleString()
-            );
-        } else {
-            toast.success('Logged out!');
-        }
-    };
     return (
         <div
             className={twMerge(
@@ -74,34 +52,7 @@ const Header = ({ children, className }: HeaderProps) => {
                     </button>
                 </div>
                 {user ? (
-                    <div className="flex gap-x-4 items-center">
-                        <Button
-                            onClick={handleLogout}
-                            className="bg-white px-4 py-2"
-                        >
-                            Logout
-                        </Button>
-                        {user.user_metadata.avatar_url ? (
-                            <div
-                                onClick={() => router.push('/account')}
-                                className="relative h-[40px] w-[40px] rounded-full overflow-hidden border-2 border-white border-opacity-80 drop-shadow-sm cursor-pointer hover:border-opacity-100 transition"
-                            >
-                                <Image
-                                    src={user.user_metadata.avatar_url}
-                                    fill
-                                    sizes="(min-width: 40px)"
-                                    alt="User image"
-                                />
-                            </div>
-                        ) : (
-                            <Button
-                                onClick={() => router.push('/account')}
-                                className="bg-white"
-                            >
-                                <FaUserAlt />
-                            </Button>
-                        )}
-                    </div>
+                    <Account user={user} />
                 ) : (
                     <div>
                         <Button
