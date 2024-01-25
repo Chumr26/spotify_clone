@@ -5,13 +5,14 @@ import Image from 'next/image';
 import { BiSearch } from 'react-icons/bi';
 import { HiHome } from 'react-icons/hi';
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx';
+import { FaUserAlt } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import { twMerge } from 'tailwind-merge';
 
 import Button from './Button';
 import useAuthModal from '@/hooks/useAuthModal';
-import { FaUserAlt } from 'react-icons/fa';
-import { twMerge } from 'tailwind-merge';
+import usePlayer from '@/hooks/usePlayer';
 
 interface HeaderProps {
     children: React.ReactNode;
@@ -23,8 +24,12 @@ const Header = ({ children, className }: HeaderProps) => {
     const authModal = useAuthModal();
     const user = useUser();
     const supabaseClient = useSupabaseClient();
+
+    const player = usePlayer();
+
     const handleLogout = async () => {
         const { error } = await supabaseClient.auth.signOut();
+        player.reset();
         router.refresh();
         if (error) {
             toast.error(error.message);

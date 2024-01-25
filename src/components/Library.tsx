@@ -8,11 +8,14 @@ import { TbPlaylist } from 'react-icons/tb';
 
 import { Song } from '@/types';
 import MediaItem from './MediaItem';
+import useHandlePlay from '@/hooks/useHandlePlay';
 
 const Library = ({ songs }: { songs: Song[] }) => {
     const authModal = useAuthModal();
     const uploadModal = useUploadModal();
     const user = useUser();
+
+    const onPlay = useHandlePlay(songs)
 
     const handleUpload = () => {
         if (!user) {
@@ -34,7 +37,7 @@ const Library = ({ songs }: { songs: Song[] }) => {
             </div>
             <div className="flex flex-col gap-y-2 mt-4 px-3">
                 {songs.map((song) => (
-                    <MediaItem key={song.id} song={song} />
+                    <MediaItem key={song.id} song={song} handleClick={onPlay}/>
                 ))}
             </div>
         </div>

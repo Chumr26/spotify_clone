@@ -2,14 +2,26 @@ import Image from 'next/image';
 
 import useLoadPoster from '@/hooks/useLoadPoster';
 import { Song } from '@/types';
+import useLoadSongUrl from '@/hooks/useLoadSongUrl';
 
-const MediaItem = ({ song }: { song: Song }) => {
+interface MediaItemProps {
+    song: Song;
+    handleClick: (activeSong: Song, activeUrl: string) => void;
+}
+
+const MediaItem = ({ song, handleClick }: MediaItemProps) => {
     const posterUrl = useLoadPoster(song.poster_path);
+    const songUrl = useLoadSongUrl(song.song_path);
 
     return (
-        <div className="flex items-center gap-x-3 p-2 rounded-md cursor-pointer hover:bg-neutral-800/50">
+        <div
+            onClick={() => {
+                handleClick(song, songUrl!);
+            }}
+            className="flex items-center gap-x-3 p-2 rounded-md cursor-pointer hover:bg-neutral-800/50"
+        >
             <div className="relative rounded-md min-h-[48px] min-w-[48px] overflow-hidden">
-                <Image fill src={posterUrl!} sizes='auto' alt="Media poster" />
+                <Image fill src={posterUrl!} sizes="auto" alt="Media poster" />
             </div>
             <div className="flex flex-col gap-y-1 overflow-hidden">
                 <p className="truncate">{song.title}</p>

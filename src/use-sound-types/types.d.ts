@@ -1,4 +1,4 @@
-/// <reference types="howler" />
+// <reference types="howler" />
 export declare type SpriteMap = {
     [key: string]: [number, number];
 };

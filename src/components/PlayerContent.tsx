@@ -1,7 +1,7 @@
 import { BsPauseFill, BsPlayFill } from 'react-icons/bs';
 import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
 import { HiSpeakerWave, HiSpeakerXMark } from 'react-icons/hi2';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
 
 import { Song } from '@/types';
@@ -13,11 +13,10 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
     const player = usePlayer();
-
-    // console.log(player.activeSong);
     const supabase = useSupabaseClient();
 
     const [volume, setVolume] = useState(1);
+    const volumeRef = useRef<number>(1);
     const [isPlaying, setIsPlaying] = useState(false);
 
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
@@ -59,21 +58,42 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
         player.setActiveUrl(nextUrl);
     };
 
+    const changeVolume = (value: number) => {
+        setVolume(value);
+        volumeRef.current = value;
+    };
+
     const [play, { pause, sound }] = useSound(songUrl, {
         volume,
         onplay: () => setIsPlaying(true),
-        onpause: () => setIsPlaying(false),
+        // onpause: () => setIsPlaying(false),
         onend: () => setIsPlaying(false),
         format: ['mp3'],
     });
 
     useEffect(() => {
         sound?.play();
+        sound?.fade(0, volume, 2000);
         return () => sound?.unload();
     }, [sound]);
 
-    const togglePlay = () => (isPlaying ? pause() : play());
-    const toggleMute = () => (volume === 0 ? setVolume(1) : setVolume(0));
+    const handlePause = () => {
+        sound.fade(volume, 0, 500);
+        setIsPlaying(false);
+        setTimeout(() => {
+            pause();
+        }, 500);
+    };
+
+    const handlePlay = () => {
+        play();
+        sound.fade(0, volume, 2000);
+    };
+
+    const togglePlay = () => (isPlaying ? handlePause() : handlePlay());
+
+    const toggleMute = () =>
+        volume === 0 ? setVolume(volumeRef.current) : setVolume(0);
 
     return (
         <div className="h-full grid grid-cols-2 md:grid-cols-3">
@@ -114,10 +134,7 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
                         size={30}
                         className="cursor-pointer"
                     />
-                    <Slider
-                        value={volume}
-                        onChange={(value) => setVolume(value)}
-                    />
+                    <Slider value={volume} onChange={changeVolume} />
                 </div>
             </div>
         </div>

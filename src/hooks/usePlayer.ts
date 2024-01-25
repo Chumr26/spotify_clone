@@ -18,7 +18,7 @@ const usePlayer = create<PlayerStore>((set) => ({
     setActiveUrl: (activeUrl) => set({ activeUrl }),
     setActiveSong: (activeSong) => set({ activeSong }),
     setIds: (ids) => set({ ids }),
-    reset: () => set({ activeUrl: undefined, ids: [] }),
+    reset: () => set({ activeUrl: undefined, activeSong: undefined, ids: [] }),
 }));
 
 export default usePlayer;
