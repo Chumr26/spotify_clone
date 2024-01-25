@@ -6,9 +6,10 @@ import Modal from './Modal';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import useAuthModal from '@/hooks/useAuthModal';
 import { useEffect } from 'react';
+import { BounceLoader } from 'react-spinners';
 
 const AuthModal = () => {
-    const { session, supabaseClient } = useSessionContext();
+    const { session, supabaseClient, isLoading } = useSessionContext();
     const router = useRouter();
     const { isOpen, handleClose } = useAuthModal();
 
@@ -19,9 +20,16 @@ const AuthModal = () => {
     useEffect(() => {
         if (session) {
             handleClose();
-            router.refresh()
+            router.refresh();
         }
     }, [session]);
+
+    if (isLoading)
+        return (
+            <div className="grid place-items-center z-10 fixed inset-0 bg-neutral-900">
+                <BounceLoader color="#22c55e" size={40} />
+            </div>
+        );
 
     return (
         <Modal
