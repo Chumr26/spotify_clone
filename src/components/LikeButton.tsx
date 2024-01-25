@@ -1,38 +1,28 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 import useAuthModal from '@/hooks/useAuthModal';
+import { LikedSongContext } from '@/provider/LikedSongsProvider';
 
 const LikeButton = ({ songId }: { songId: string }) => {
-    const [isLiked, setIsLiked] = useState(false);
+    const likedSongs = useContext(LikedSongContext);
+    const isInArr = () => !!likedSongs.find((song) => song.id === songId);
+    const [isLiked, setIsLiked] = useState(isInArr);
+
     const timeoutId = useRef<NodeJS.Timeout>();
     const router = useRouter();
-
-    const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
-
     const user = useUser();
     const supabaseClient = useSupabaseClient();
     const authModal = useAuthModal();
 
-    useEffect(() => {
-        if (!user) return setIsLiked(false);
-        const fetchData = async () => {
-            const { data, error } = await supabaseClient
-                .from('liked_songs')
-                .select('*')
-                .eq('user_id', user.id)
-                .eq('song_id', songId)
-                .single();
+    const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 
-            if (!error && data) setIsLiked(true);
-        };
-        fetchData();
-    }, [user]);
+    useEffect(() => setIsLiked(isInArr), [likedSongs]);
 
     const handleClick = () => {
         if (!user) return authModal.handleOpen();

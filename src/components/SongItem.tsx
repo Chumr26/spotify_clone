@@ -5,9 +5,16 @@ import Image from 'next/image';
 import type { Song } from '@/types';
 import useLoadPoster from '@/hooks/useLoadPoster';
 import PlayButton from './PlayButton';
+import useLoadSongUrl from '@/hooks/useLoadSongUrl';
 
-const SongItem = ({ song }: { song: Song }) => {
+interface SongItemProps {
+    song: Song;
+    onPlay: (activeSong: Song, activeUrl: string) => void;
+}
+
+const SongItem = ({ song, onPlay }: SongItemProps) => {
     const posterUrl = useLoadPoster(song.poster_path);
+    const songUrl = useLoadSongUrl(song.song_path);
 
     return (
         <div className="group relative flex flex-col justify-center rounded-md bg-neutral-400/5 hover:bg-neutral-400/10 cursor-pointer transtiion p-3">
@@ -27,7 +34,7 @@ const SongItem = ({ song }: { song: Song }) => {
                 </p>
             </div>
             <div className="absolute bottom-24 right-5">
-                <PlayButton />
+                <PlayButton handleClick={() => onPlay(song, songUrl!)} />
             </div>
         </div>
     );
