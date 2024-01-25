@@ -6,7 +6,7 @@ import useLoadSongUrl from '@/hooks/useLoadSongUrl';
 
 interface MediaItemProps {
     song: Song;
-    handleClick: (activeSong: Song, activeUrl: string) => void;
+    handleClick?: (activeSong: Song, activeUrl: string) => void;
 }
 
 const MediaItem = ({ song, handleClick }: MediaItemProps) => {
@@ -16,7 +16,7 @@ const MediaItem = ({ song, handleClick }: MediaItemProps) => {
     return (
         <div
             onClick={() => {
-                handleClick(song, songUrl!);
+                handleClick?.(song, songUrl!);
             }}
             className="flex items-center gap-x-3 p-2 rounded-md cursor-pointer hover:bg-neutral-800/50"
         >

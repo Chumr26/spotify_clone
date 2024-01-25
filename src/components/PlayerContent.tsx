@@ -66,19 +66,18 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
     const [play, { pause, sound }] = useSound(songUrl, {
         volume,
         onplay: () => setIsPlaying(true),
-        // onpause: () => setIsPlaying(false),
         onend: () => setIsPlaying(false),
         format: ['mp3'],
+        html5: true,
+        autoplay: true,
     });
 
     useEffect(() => {
-        sound?.play();
-        sound?.fade(0, volume, 2000);
         return () => sound?.unload();
     }, [sound]);
 
     const handlePause = () => {
-        sound.fade(volume, 0, 500);
+        sound?.fade(volume, 0, 500);
         setIsPlaying(false);
         setTimeout(() => {
             pause();
@@ -86,8 +85,8 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
     };
 
     const handlePlay = () => {
+        sound?.fade(0, volume, 1000);
         play();
-        sound.fade(0, volume, 2000);
     };
 
     const togglePlay = () => (isPlaying ? handlePause() : handlePlay());
