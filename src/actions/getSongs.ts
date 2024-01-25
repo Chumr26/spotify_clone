@@ -10,7 +10,13 @@ const getSongs = async (): Promise<Song[]> => {
         .from('songs')
         .select('*')
         .order('created_at', { ascending: false });
-    if (error) console.log('getSong Error: ', error);
+    if (error)
+        console.log(
+            'getSong Error: ',
+            error,
+            'Date: ',
+            new Date().toLocaleString()
+        );
     return (data as Song[]) || [];
 };
 

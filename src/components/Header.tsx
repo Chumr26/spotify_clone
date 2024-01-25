@@ -33,7 +33,12 @@ const Header = ({ children, className }: HeaderProps) => {
         router.refresh();
         if (error) {
             toast.error(error.message);
-            console.log('handleLogout Error: ', error);
+            console.log(
+                'handleLogout Error: ',
+                error,
+                'Date: ',
+                new Date().toLocaleString()
+            );
         } else {
             toast.success('Logged out!');
         }

@@ -52,7 +52,12 @@ const UploadModal = () => {
                     });
             if (songError) {
                 setIsLoading(false);
-                console.log('songError: ', songError);
+                console.log(
+                    'songError: ',
+                    songError,
+                    'Date: ',
+                    new Date().toLocaleString()
+                );
                 return toast.error('Fail song upload.');
             }
             // upload poster
@@ -65,7 +70,12 @@ const UploadModal = () => {
                     });
             if (posterError) {
                 setIsLoading(false);
-                console.log('posterError Error: ', posterError);
+                console.log(
+                    'posterError Error: ',
+                    posterError,
+                    'Date: ',
+                    new Date().toLocaleString()
+                );
                 return toast.error('Fail poster upload.');
             }
             // insert record
@@ -81,7 +91,12 @@ const UploadModal = () => {
 
             if (insertError) {
                 setIsLoading(false);
-                console.log('insertError: ', insertError);
+                console.log(
+                    'insertError: ',
+                    insertError,
+                    'Date: ',
+                    new Date().toLocaleString()
+                );
                 return toast.error('Insert table error.');
             }
             // success
@@ -91,7 +106,12 @@ const UploadModal = () => {
             toast.success('Song added!');
         } catch (error) {
             toast.error('Upload Error');
-            console.log('Upload Error: ', (error as Error).message);
+            console.log(
+                'Upload Error: ',
+                (error as Error).message,
+                'Date: ',
+                new Date().toLocaleString()
+            );
         } finally {
             setIsLoading(false);
         }

@@ -39,7 +39,12 @@ const LikeButton = ({ songId }: { songId: string }) => {
                 if (error) {
                     setIsLiked(true);
                     toast.error('Unlike song Error');
-                    console.log('Unlike song Error: ', error.message);
+                    console.log(
+                        'Unlike song Error: ',
+                        error.message,
+                        'Date: ',
+                        new Date().toLocaleString()
+                    );
                 }
             } else {
                 const { error } = await supabaseClient
@@ -48,7 +53,12 @@ const LikeButton = ({ songId }: { songId: string }) => {
                 if (error) {
                     setIsLiked(false);
                     toast.error('Like song Error');
-                    console.log('Like song Error: ', error.message);
+                    console.log(
+                        'Like song Error: ',
+                        error.message,
+                        'Date: ',
+                        new Date().toLocaleString()
+                    );
                 }
             }
             router.refresh();
