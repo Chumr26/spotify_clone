@@ -1,8 +1,8 @@
 import getSongs from '@/actions/getSongs';
 import Box from '@/components/Box';
 import Header from '@/components/Header';
-import LikedList from '@/components/LikedList';
-import PageContent from '@/components/PageContent';
+import LikedList from './components/LikedList';
+import PageContent from './components/PageContent';
 
 export default async function Home() {
     const songs = await getSongs();

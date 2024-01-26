@@ -1,12 +1,12 @@
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/navigation';
 import { Auth } from '@supabase/auth-ui-react';
-
-import Modal from './Modal';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import useAuthModal from '@/hooks/useAuthModal';
 import { useEffect } from 'react';
 import { BounceLoader } from 'react-spinners';
+
+import Modal from '.';
 
 const AuthModal = () => {
     const { session, supabaseClient, isLoading } = useSessionContext();

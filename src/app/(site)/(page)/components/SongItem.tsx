@@ -4,8 +4,8 @@ import Image from 'next/image';
 
 import type { Song } from '@/types';
 import useLoadPoster from '@/hooks/useLoadPoster';
-import PlayButton from './PlayButton';
 import useLoadSongUrl from '@/hooks/useLoadSongUrl';
+import PlayButton from '@/components/PlayButton';
 
 interface SongItemProps {
     song: Song;

@@ -7,9 +7,9 @@ import toast from 'react-hot-toast';
 import { BounceLoader } from 'react-spinners';
 
 import useUploadModal from '@/hooks/useUploadModal';
-import Modal from './Modal';
-import Input from './Input';
-import Button from './Button';
+import Modal from '.';
+import Input from '../Input';
+import Button from '../Button';
 
 const UploadModal = () => {
     const { isOpen, handleClose } = useUploadModal();

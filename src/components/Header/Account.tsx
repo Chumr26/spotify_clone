@@ -5,7 +5,7 @@ import type { User } from '@supabase/auth-helpers-nextjs';
 import toast from 'react-hot-toast';
 import * as HoverCard from '@radix-ui/react-hover-card';
 
-import Button from './Button';
+import Button from '../Button';
 import usePlayer from '@/hooks/usePlayer';
 
 const Account = ({ user }: { user: User }) => {

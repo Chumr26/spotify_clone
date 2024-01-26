@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
 
 import { Song } from '@/types';
-import MediaItem from './MediaItem';
-import LikeButton from './LikeButton';
+import MediaItem from '../MediaItem';
+import LikeButton from '../LikeButton';
 import Slider from './Slider';
 import usePlayer from '@/hooks/usePlayer';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';

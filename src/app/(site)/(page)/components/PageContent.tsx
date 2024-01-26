@@ -1,7 +1,7 @@
 'use client';
 
 import type { Song } from '@/types';
-import SongItem from '@/components/SongItem';
+import SongItem from './SongItem';
 import useHandlePlay from '@/hooks/useHandlePlay';
 
 const PageContent = ({ songs }: { songs: Song[] }) => {

@@ -7,7 +7,7 @@ import { RxCaretLeft, RxCaretRight } from 'react-icons/rx';
 import { useUser } from '@supabase/auth-helpers-react';
 import { twMerge } from 'tailwind-merge';
 
-import Button from './Button';
+import Button from '../Button';
 import useAuthModal from '@/hooks/useAuthModal';
 import Account from './Account';
 
