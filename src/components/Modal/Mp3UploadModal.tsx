@@ -167,7 +167,7 @@ const Mp3UploadModal = () => {
                     disabled={isLoading}
                     className="flex justify-center"
                 >
-                    {isLoading ? <BounceLoader size={24} /> : 'Create'}
+                    {isLoading ? <BounceLoader size={24} /> : 'Upload'}
                 </Button>
                 {Object.keys(errors).length > 0 ? (
                     <p className="text-center text-orange-400">
