@@ -1,12 +1,12 @@
 import Image from 'next/image';
 
-import getLikedSongs from '@/actions/getLikedSongs';
 import Box from '@/components/Box';
 import Header from '@/components/Header';
 import LikedContent from './components/LikedContent';
+import getSongsByUserId from '@/actions/getSongsByUserId';
 
-const Liked = async () => {
-    const songs = await getLikedSongs();
+const Library = async () => {
+    const songs = await getSongsByUserId();
     return (
         <Box className="h-full overflow-hidden">
             <Header>
@@ -24,7 +24,7 @@ const Liked = async () => {
                             Playlist
                         </p>
                         <h1 className="text-4xl sm:text-5xl lg:text-7xl font-semibold">
-                            Liked Songs
+                            Library Songs
                         </h1>
                     </div>
                 </div>
@@ -34,4 +34,4 @@ const Liked = async () => {
     );
 };
 
-export default Liked;
+export default Library;

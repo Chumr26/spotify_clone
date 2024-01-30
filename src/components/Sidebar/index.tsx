@@ -12,11 +12,10 @@ import HomeIcon from '../Icons/HomeIcon';
 import SearchIcon from '../Icons/SearchIcon';
 
 interface SidebarPros {
-    likedSongs: Song[];
     children: React.ReactNode;
 }
 
-const Sidebar = ({ likedSongs, children }: SidebarPros) => {
+const Sidebar = ({ children }: SidebarPros) => {
     const pathname = usePathname();
     const player = usePlayer();
 
@@ -51,7 +50,7 @@ const Sidebar = ({ likedSongs, children }: SidebarPros) => {
                     </div>
                 </Box>
                 <Box className="h-full">
-                    <Playlist likedSongs={likedSongs} />
+                    <Playlist />
                 </Box>
             </div>
             <main className="w-full md:py-2 md:pr-2">{children}</main>

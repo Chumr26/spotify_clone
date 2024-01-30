@@ -1,15 +1,17 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 import useAuthModal from '@/hooks/useAuthModal';
+import { LikedSongContext } from '@/provider/LikedSongsProvider';
 
 const LikeButton = ({ songId }: { songId: string }) => {
     const [isLiked, setIsLiked] = useState(false);
+    const likedSongs = useContext(LikedSongContext);
 
     const timeoutId = useRef<NodeJS.Timeout>();
     const router = useRouter();
@@ -34,9 +36,12 @@ const LikeButton = ({ songId }: { songId: string }) => {
                 setIsLiked(true);
             } else setIsLiked(false);
         };
-
+        if (likedSongs) {
+            const isLiked = songId in likedSongs.map((song) => song.id);
+            setIsLiked(isLiked);
+        }
         fetchData();
-    }, [songId]);
+    }, [songId, likedSongs, user]);
 
     const handleLike = () => {
         if (!user) return authModal.handleOpen();

@@ -8,6 +8,7 @@ import ModalProvider from '@/provider/ModalProvider';
 import ToasterProvider from '@/provider/ToasterProvider';
 import Player from '@/components/Player';
 import getLikedSongs from '@/actions/getLikedSongs';
+import LikedSongsProvider from '@/provider/LikedSongsProvider';
 
 const font = Figtree({ subsets: ['latin'] });
 
@@ -28,8 +29,10 @@ export default async function RootLayout({
                 <ToasterProvider />
                 <SupabaseProvider>
                     <ModalProvider />
-                    <Sidebar likedSongs={likedSongs}>{children}</Sidebar>
-                    <Player />
+                    <LikedSongsProvider likedSongs={likedSongs}>
+                        <Sidebar>{children}</Sidebar>
+                        <Player />
+                    </LikedSongsProvider>
                 </SupabaseProvider>
             </body>
         </html>

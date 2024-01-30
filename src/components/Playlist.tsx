@@ -9,14 +9,17 @@ import { Song } from '@/types';
 import useHandlePlay from '@/hooks/useHandlePlay';
 import MediaItem from './MediaItem';
 import useSidebar from '@/hooks/useSidebar';
+import { useContext } from 'react';
+import { LikedSongContext } from '@/provider/LikedSongsProvider';
 
-const Playlist = ({ likedSongs }: { likedSongs: Song[] }) => {
+const Playlist = () => {
     // const authModal = useAuthModal();
     // const uploadModal = useUploadModal();
     // const user = useUser();
     const sidebar = useSidebar();
+    const likedSongs = useContext(LikedSongContext);
 
-    const onPlay = useHandlePlay(likedSongs);
+    const onPlay = useHandlePlay(likedSongs!);
 
     // const handleUpload = () => {
     //     if (!user) {
@@ -41,7 +44,7 @@ const Playlist = ({ likedSongs }: { likedSongs: Song[] }) => {
                 </div>
             </div>
             <div className="flex flex-col gap-y-2 mt-4 px-1">
-                {likedSongs.map((song) => (
+                {likedSongs?.map((song) => (
                     <MediaItem
                         key={song.id}
                         song={song}
