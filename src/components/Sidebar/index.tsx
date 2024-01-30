@@ -42,7 +42,7 @@ const Sidebar = ({ songs, children }: SidebarPros) => {
                 player.activeSong && 'h-[calc(100%-80px)]'
             )}
         >
-            <div className="hidden md:flex flex-col p-2 gap-y-2 w-[300px] ">
+            <div className="flex flex-col p-2 gap-y-2 transition">
                 <Box>
                     <div className="flex flex-col gap-y-4 px-5 py-4">
                         {routes.map((item) => (

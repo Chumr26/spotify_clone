@@ -7,9 +7,10 @@ import useLoadSongUrl from '@/hooks/useLoadSongUrl';
 interface MediaItemProps {
     song: Song;
     handleClick?: (activeSong: Song, activeUrl: string) => void;
+    isOpen: boolean;
 }
 
-const MediaItem = ({ song, handleClick }: MediaItemProps) => {
+const MediaItem = ({ song, handleClick, isOpen }: MediaItemProps) => {
     const posterUrl = song.youtube_poster || useLoadPoster(song.poster_path);
     const songUrl = useLoadSongUrl(song.song_path);
 
@@ -33,10 +34,12 @@ const MediaItem = ({ song, handleClick }: MediaItemProps) => {
                     alt="Media poster"
                 />
             </div>
-            <div className="flex flex-col gap-y-1 overflow-hidden">
-                <p className="truncate">{song.title}</p>
-                <p className="text-neutral-400 text-sm">{song.author}</p>
-            </div>
+            {isOpen && (
+                <div className="flex flex-col gap-y-1 overflow-hidden">
+                    <p className="truncate">{song.title}</p>
+                    <p className="text-neutral-400 text-sm">{song.author}</p>
+                </div>
+            )}
         </div>
     );
 };

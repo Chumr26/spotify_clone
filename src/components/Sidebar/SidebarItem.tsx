@@ -1,6 +1,7 @@
-
 import Link from 'next/link';
 import { IconType } from 'react-icons';
+
+import useSidebar from '@/hooks/useSidebar';
 
 interface SidebarItemProps {
     label: string;
@@ -10,15 +11,16 @@ interface SidebarItemProps {
 }
 
 const SidebarItem = ({ label, icon: Icon, active, href }: SidebarItemProps) => {
+    const { isOpen } = useSidebar();
     return (
         <Link
             href={href}
-            className={`flex items-center py-1 gap-x-4 font-medium cursor-pointer text-neutral-400 hover:text-white transition ${
+            className={`flex items-center py-1 pl-1 gap-x-4 font-medium cursor-pointer text-neutral-400 hover:text-white transition ${
                 active && 'text-white'
             }`}
         >
-            <Icon className='w-6'/>
-            <p>{label}</p>
+            <Icon className="w-6" />
+            {isOpen && <p>{label}</p>}
         </Link>
     );
 };
