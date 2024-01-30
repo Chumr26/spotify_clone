@@ -66,7 +66,10 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
     const [play, { pause, sound }] = useSound(songUrl, {
         volume,
         onplay: () => setIsPlaying(true),
-        onend: () => setIsPlaying(false),
+        onend: () => {
+            setIsPlaying(false);
+            changeSong(1);
+        },
         format: ['mp3'],
         html5: true,
         autoplay: true,
@@ -97,7 +100,7 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
     return (
         <div className="h-full grid grid-cols-2 md:grid-cols-3">
             <div className="flex gap-x-4">
-                <MediaItem song={song} isOpen/>
+                <MediaItem song={song} isOpen />
                 <LikeButton songId={song.id} />
             </div>
             <div className="flex md:hidden justify-end items-center">
