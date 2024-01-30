@@ -7,7 +7,7 @@ import PageContent from './components/PageContent';
 export default async function Home() {
     const songs = await getSongs();
     return (
-        <Box className="h-full overflow-hidden">
+        <Box className="h-full overflow-hidden overflow-y-auto no-scrollbar">
             <Header>
                 <div className="mb-2">
                     <h1 className="text-white text-3xl font-semibold">
