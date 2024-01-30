@@ -13,7 +13,7 @@ interface SongItemProps {
 }
 
 const SongItem = ({ song, onPlay }: SongItemProps) => {
-    const posterUrl = useLoadPoster(song.poster_path);
+    const posterUrl = song.youtube_poster || useLoadPoster(song.poster_path);
     const songUrl = useLoadSongUrl(song.song_path);
 
     return (
@@ -23,6 +23,11 @@ const SongItem = ({ song, onPlay }: SongItemProps) => {
                     priority
                     src={posterUrl!}
                     fill
+                    className={
+                        posterUrl?.includes('img.youtube.com')
+                            ? 'object-cover'
+                            : undefined
+                    }
                     alt="Poster"
                     sizes="auto"
                 />

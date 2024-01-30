@@ -169,13 +169,11 @@ const Mp3UploadModal = () => {
                 >
                     {isLoading ? <BounceLoader size={24} /> : 'Upload'}
                 </Button>
-                {Object.keys(errors).length > 0 ? (
+                {Object.keys(errors).map((field) => (
                     <p className="text-center text-orange-400">
-                        All fields required!
+                        Missing {field} field.
                     </p>
-                ) : (
-                    ''
-                )}
+                ))}
             </form>
         </Modal>
     );

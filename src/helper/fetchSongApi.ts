@@ -1,7 +1,8 @@
 interface ResponeType {
+    link: string
     status: string;
     progress: string;
-    error: string;
+    msg: string
 }
 
 type fetchSongApiType = (videoId: string) => Promise<ResponeType | undefined>;
@@ -10,14 +11,14 @@ const fetchSongApi: fetchSongApiType = async (videoId) => {
     try {
         const data = (await (
             await fetch(
-                `${process.env.NEXT_PUBLIC_RAPID_API_URL}?id=${videoId}`,
+                `${process.env.NEXT_PUBLIC_Y2M_URL}?id=${videoId}`,
                 {
                     method: 'GET',
                     headers: {
                         'X-RapidAPI-Key':
                             process.env.NEXT_PUBLIC_RAPID_API_KEY!,
                         'X-RapidAPI-Host':
-                            process.env.NEXT_PUBLIC_RAPID_API_HOST!,
+                            process.env.NEXT_PUBLIC_Y2M_HOST!,
                     },
                 }
             )
