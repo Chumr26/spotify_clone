@@ -11,7 +11,7 @@ interface SidebarItemProps {
 }
 
 const SidebarItem = ({ label, icon: Icon, active, href }: SidebarItemProps) => {
-    const { isOpen } = useSidebar();
+    const sidebar = useSidebar();
     return (
         <Link
             href={href}
@@ -20,7 +20,7 @@ const SidebarItem = ({ label, icon: Icon, active, href }: SidebarItemProps) => {
             }`}
         >
             <Icon className="w-6" />
-            {isOpen && <p>{label}</p>}
+            {sidebar.isOpen && <p>{label}</p>}
         </Link>
     );
 };

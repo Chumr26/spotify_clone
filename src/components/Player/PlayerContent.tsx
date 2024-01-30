@@ -97,7 +97,7 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
     return (
         <div className="h-full grid grid-cols-2 md:grid-cols-3">
             <div className="flex gap-x-4">
-                <MediaItem song={song} />
+                <MediaItem song={song} isOpen/>
                 <LikeButton songId={song.id} />
             </div>
             <div className="flex md:hidden justify-end items-center">

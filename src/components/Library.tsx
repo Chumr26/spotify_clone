@@ -15,7 +15,7 @@ const Library = ({ songs }: { songs: Song[] }) => {
     const authModal = useAuthModal();
     const uploadModal = useUploadModal();
     const user = useUser();
-    const { isOpen, handleClose, handleOpen } = useSidebar();
+    const sidebar = useSidebar();
 
     const onPlay = useHandlePlay(songs);
 
@@ -28,13 +28,19 @@ const Library = ({ songs }: { songs: Song[] }) => {
         <div className="flex flex-col">
             <div className="flex items-center justify-between px-5 pt-4 text-neutral-400">
                 <div
-                    onClick={() => (isOpen ? handleClose() : handleOpen())}
+                    onClick={() =>
+                        sidebar.isOpen
+                            ? sidebar.handleClose()
+                            : sidebar.handleOpen()
+                    }
                     className="flex gap-x-2 hover:text-white transition cursor-pointer pl-1"
                 >
                     <LibraryIcon className="w-6" />
-                    {isOpen && <p className="font-medium">Your Library</p>}
+                    {sidebar.isOpen && (
+                        <p className="font-medium">Your Library</p>
+                    )}
                 </div>
-                {isOpen && (
+                {sidebar.isOpen && (
                     <AiOutlinePlus
                         onClick={handleUpload}
                         size={20}
@@ -48,7 +54,7 @@ const Library = ({ songs }: { songs: Song[] }) => {
                         key={song.id}
                         song={song}
                         handleClick={onPlay}
-                        isOpen={isOpen}
+                        isOpen={sidebar.isOpen}
                     />
                 ))}
             </div>
