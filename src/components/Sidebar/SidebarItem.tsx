@@ -17,7 +17,7 @@ const SidebarItem = ({ label, icon: Icon, active, href }: SidebarItemProps) => {
                 active && 'text-white'
             }`}
         >
-            <Icon size={26} />
+            <Icon className='w-6'/>
             <p>{label}</p>
         </Link>
     );
