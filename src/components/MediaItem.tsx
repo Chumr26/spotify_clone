@@ -1,6 +1,6 @@
 import Image from 'next/image';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
-import useLoadPoster from '@/hooks/useLoadPoster';
 import { Song } from '@/types';
 import useLoadSongUrl from '@/hooks/useLoadSongUrl';
 
@@ -11,8 +11,12 @@ interface MediaItemProps {
 }
 
 const MediaItem = ({ song, handleClick, isOpen }: MediaItemProps) => {
-    const posterUrl = song.youtube_poster || useLoadPoster(song.poster_path);
+    const supabaseClient = useSupabaseClient();
     const songUrl = useLoadSongUrl(song.song_path);
+    const posterUrl =
+        song.youtube_poster ||
+        supabaseClient.storage.from('posters').getPublicUrl(song.poster_path)
+            .data.publicUrl;
 
     return (
         <div

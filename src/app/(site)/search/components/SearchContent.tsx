@@ -17,6 +17,7 @@ const SearchContent = ({ songs }: { songs: Song[] }) => {
                 <div key={song.id} className="flex items-center gap-x-4">
                     <div className="flex-1">
                         <MediaItem
+                            isOpen
                             key={song.id}
                             song={song}
                             handleClick={onPlay}

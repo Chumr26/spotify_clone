@@ -5,18 +5,18 @@ import { twMerge } from 'tailwind-merge';
 
 import Box from '../Box';
 import SidebarItem from './SidebarItem';
-import Library from '../Library';
+import Playlist from '../Playlist';
 import { Song } from '@/types';
 import usePlayer from '@/hooks/usePlayer';
 import HomeIcon from '../Icons/HomeIcon';
 import SearchIcon from '../Icons/SearchIcon';
 
 interface SidebarPros {
-    songs: Song[];
+    likedSongs: Song[];
     children: React.ReactNode;
 }
 
-const Sidebar = ({ songs, children }: SidebarPros) => {
+const Sidebar = ({ likedSongs, children }: SidebarPros) => {
     const pathname = usePathname();
     const player = usePlayer();
 
@@ -51,7 +51,7 @@ const Sidebar = ({ songs, children }: SidebarPros) => {
                     </div>
                 </Box>
                 <Box className="h-full">
-                    <Library songs={songs} />
+                    <Playlist likedSongs={likedSongs} />
                 </Box>
             </div>
             <main className="w-full md:py-2 md:pr-2">{children}</main>

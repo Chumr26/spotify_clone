@@ -17,7 +17,7 @@ const LikedContent = ({ songs }: { songs: Song[] }) => {
             {songs.map((song) => (
                 <div key={song.id} className="flex gap-x-4">
                     <div className="flex-1">
-                        <MediaItem song={song} handleClick={onPlay} />
+                        <MediaItem song={song} handleClick={onPlay} isOpen />
                     </div>
                     <LikeButton songId={song.id} />
                 </div>

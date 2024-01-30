@@ -3,27 +3,26 @@
 import useAuthModal from '@/hooks/useAuthModal';
 import useUploadModal from '@/hooks/useUploadModal';
 import { useUser } from '@supabase/auth-helpers-react';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { AiFillHeart } from 'react-icons/ai';
 
 import { Song } from '@/types';
 import useHandlePlay from '@/hooks/useHandlePlay';
 import MediaItem from './MediaItem';
-import LibraryIcon from './Icons/LibraryIcon';
 import useSidebar from '@/hooks/useSidebar';
 
-const Library = ({ songs }: { songs: Song[] }) => {
-    const authModal = useAuthModal();
-    const uploadModal = useUploadModal();
-    const user = useUser();
+const Playlist = ({ likedSongs }: { likedSongs: Song[] }) => {
+    // const authModal = useAuthModal();
+    // const uploadModal = useUploadModal();
+    // const user = useUser();
     const sidebar = useSidebar();
 
-    const onPlay = useHandlePlay(songs);
+    const onPlay = useHandlePlay(likedSongs);
 
-    const handleUpload = () => {
-        if (!user) {
-            authModal.handleOpen();
-        } else uploadModal.handleOpen();
-    };
+    // const handleUpload = () => {
+    //     if (!user) {
+    //         authModal.handleOpen();
+    //     } else uploadModal.handleOpen();
+    // };
     return (
         <div className="flex flex-col">
             <div className="flex items-center justify-between px-5 pt-4 text-neutral-400">
@@ -33,23 +32,16 @@ const Library = ({ songs }: { songs: Song[] }) => {
                             ? sidebar.handleClose()
                             : sidebar.handleOpen()
                     }
-                    className="flex gap-x-2 hover:text-white transition cursor-pointer pl-1"
+                    className="flex items-center gap-x-4 hover:text-white transition cursor-pointer pl-1"
                 >
-                    <LibraryIcon className="w-6" />
+                    <AiFillHeart size={26} />
                     {sidebar.isOpen && (
-                        <p className="font-medium">Your Library</p>
+                        <p className="font-medium text-nowrap">Playlist</p>
                     )}
                 </div>
-                {sidebar.isOpen && (
-                    <AiOutlinePlus
-                        onClick={handleUpload}
-                        size={20}
-                        className="cursor-pointer hover:text-white transition"
-                    />
-                )}
             </div>
             <div className="flex flex-col gap-y-2 mt-4 px-1">
-                {songs.map((song) => (
+                {likedSongs.map((song) => (
                     <MediaItem
                         key={song.id}
                         song={song}
@@ -62,4 +54,4 @@ const Library = ({ songs }: { songs: Song[] }) => {
     );
 };
 
-export default Library;
+export default Playlist;

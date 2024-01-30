@@ -3,9 +3,9 @@
 import Image from 'next/image';
 
 import type { Song } from '@/types';
-import useLoadPoster from '@/hooks/useLoadPoster';
 import useLoadSongUrl from '@/hooks/useLoadSongUrl';
 import PlayButton from '@/components/PlayButton';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 interface SongItemProps {
     song: Song;
@@ -13,8 +13,12 @@ interface SongItemProps {
 }
 
 const SongItem = ({ song, onPlay }: SongItemProps) => {
-    const posterUrl = song.youtube_poster || useLoadPoster(song.poster_path);
+    const supabaseClient = useSupabaseClient();
     const songUrl = useLoadSongUrl(song.song_path);
+    const posterUrl =
+        song.youtube_poster ||
+        supabaseClient.storage.from('posters').getPublicUrl(song.poster_path)
+            .data.publicUrl;
 
     return (
         <div className="group relative flex flex-col justify-center rounded-md bg-neutral-400/5 hover:bg-neutral-400/10 cursor-pointer transtiion p-3">
