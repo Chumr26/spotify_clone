@@ -6,4 +6,5 @@ export interface Song {
     poster_path: string;
     user_id: string;
     youtube_poster: string | null;
+    updated_poster?: string;
 }
