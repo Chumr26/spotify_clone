@@ -5,7 +5,7 @@ interface ModalProps {
     isOpen: boolean;
     handleChange: (open: boolean) => void;
     title: string;
-    description: string;
+    description?: string;
     children: React.ReactNode;
 }
 

@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import { useContext } from 'react';
 import { IconType } from 'react-icons';
 
 import useSidebar from '@/hooks/useSidebar';
+import { LikedSongContext } from '@/provider/LikedSongsProvider';
 
 interface SidebarItemProps {
     label: string;
@@ -12,12 +14,13 @@ interface SidebarItemProps {
 
 const SidebarItem = ({ label, icon: Icon, active, href }: SidebarItemProps) => {
     const sidebar = useSidebar();
+    const likedSongs = useContext(LikedSongContext);
     return (
         <Link
             href={href}
-            className={`flex items-center py-1 pl-1 gap-x-4 font-medium cursor-pointer text-neutral-400 hover:text-white transition ${
+            className={`flex items-center py-1 gap-x-4 font-medium cursor-pointer text-neutral-400 hover:text-white transition ${
                 active && 'text-white'
-            }`}
+            } ${likedSongs?.length && 'pl-1'}`}
         >
             <Icon className="w-6" />
             {sidebar.isOpen && <p>{label}</p>}

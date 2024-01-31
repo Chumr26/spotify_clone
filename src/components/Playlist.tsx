@@ -1,31 +1,19 @@
 'use client';
 
-import useAuthModal from '@/hooks/useAuthModal';
-import useUploadModal from '@/hooks/useUploadModal';
-import { useUser } from '@supabase/auth-helpers-react';
+import { useContext } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 
-import { Song } from '@/types';
 import useHandlePlay from '@/hooks/useHandlePlay';
 import MediaItem from './MediaItem';
 import useSidebar from '@/hooks/useSidebar';
-import { useContext } from 'react';
 import { LikedSongContext } from '@/provider/LikedSongsProvider';
 
 const Playlist = () => {
-    // const authModal = useAuthModal();
-    // const uploadModal = useUploadModal();
-    // const user = useUser();
     const sidebar = useSidebar();
     const likedSongs = useContext(LikedSongContext);
 
     const onPlay = useHandlePlay(likedSongs!);
 
-    // const handleUpload = () => {
-    //     if (!user) {
-    //         authModal.handleOpen();
-    //     } else uploadModal.handleOpen();
-    // };
     return (
         <div className="flex flex-col">
             <div className="flex items-center justify-between px-5 pt-4 text-neutral-400">
@@ -35,7 +23,9 @@ const Playlist = () => {
                             ? sidebar.handleClose()
                             : sidebar.handleOpen()
                     }
-                    className="flex items-center gap-x-4 hover:text-white transition cursor-pointer pl-1"
+                    className={`flex items-center gap-x-4 hover:text-white transition cursor-pointer ${
+                        likedSongs?.length && 'pl-1'
+                    }`}
                 >
                     <AiFillHeart size={26} />
                     {sidebar.isOpen && (
