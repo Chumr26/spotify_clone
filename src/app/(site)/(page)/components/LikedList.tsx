@@ -29,16 +29,16 @@ const LikedList = ({ name, href }: LikedListProps) => {
         } else uploadModal.handleOpen();
     };
     return (
-        <button
+        <div
             onClick={handleClick}
-            className="relative group pr-4 flex items-center rounded-md gap-x-4 bg-neutral-100/10 hover:bg-neutral-100/20 transition overflow-hidden"
+            className="relative group pr-4 flex items-center rounded-md gap-x-4 bg-neutral-100/10 hover:bg-neutral-100/20 transition cursor-pointer overflow-hidden"
         >
             <LibraryIcon className="w-10 md:w-14 ml-2" />
             <p className="font-medium py-5">{name}</p>
             <div className="absolute right-5 flex items-center justify-center transition opacity-0 rounded-full bg-green-500 drop-shadow-md group-hover:opacity-100 hover:scale-110">
                 <UploadButton size={26} className="hover:opacity-100" />
             </div>
-        </button>
+        </div>
     );
 };
 
