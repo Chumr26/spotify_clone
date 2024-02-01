@@ -49,7 +49,7 @@ const Sidebar = ({ children }: SidebarPros) => {
                         ))}
                     </div>
                 </Box>
-                <Box className="h-full">
+                <Box className="h-[calc(100%-80px)] overflow-y-auto no-scrollbar">
                     <Playlist />
                 </Box>
             </div>

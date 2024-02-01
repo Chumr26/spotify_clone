@@ -10,7 +10,7 @@ const Library = async () => {
     const songs = await getSongsByUserId();
 
     return (
-        <Box className="h-full overflow-hidden">
+        <Box className="h-full overflow-hidden overflow-y-auto no-scrollbar">
             <Header>
                 <div className="mt-10 md:mt-14 flex flex-col md:flex-row items-center justify-between gap-5">
                     <div className="flex flex-col md:flex-row items-center">

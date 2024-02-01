@@ -25,7 +25,7 @@ const MediaItem = ({ song, handleClick, isOpen }: MediaItemProps) => {
             }}
             className="flex items-center gap-x-3 p-2 rounded-md cursor-pointer hover:bg-neutral-800/50"
         >
-            <div className="relative rounded-md min-h-[48px] min-w-[48px] overflow-hidden">
+            <div className="relative rounded-md min-h-[48px] min-w-[48px] overflow-x-hidden">
                 <Image
                     fill
                     src={posterUrl!}
