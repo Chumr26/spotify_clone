@@ -106,7 +106,9 @@ const UpdateModal = () => {
                 .update({
                     title: updatedTitle.value,
                     author: updatedAuthor.value,
-                    youtube_poster: posterUrl.value || null,
+                    ...(posterUrl.value && {
+                        youtube_poster: posterUrl.value,
+                    }),
                     ...(posterFile.files?.[0]! && {
                         song_path: `song-${uniqueId}`,
                         poster_path: `poster-${uniqueId}`,
