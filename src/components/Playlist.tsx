@@ -15,7 +15,7 @@ const Playlist = () => {
     const onPlay = useHandlePlay(likedSongs!);
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col text-nowrap max-w-48">
             <div className="flex items-center justify-between px-5 pt-4 text-neutral-400">
                 <div
                     onClick={() =>
@@ -29,7 +29,7 @@ const Playlist = () => {
                 >
                     <AiFillHeart size={26} />
                     {sidebar.isOpen && (
-                        <p className="font-medium text-nowrap">Playlist</p>
+                        <p className="font-medium">Playlist</p>
                     )}
                 </div>
             </div>
