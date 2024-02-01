@@ -16,7 +16,7 @@ const Playlist = () => {
     const onPlay = useHandlePlay(likedSongs!);
 
     return (
-        <div className="flex flex-col text-nowrap max-w-48">
+        <div className="flex flex-col text-nowrap max-w-full md:max-w-48 ">
             <div className="sticky bg-neutral-900 top-0 z-10 flex items-center justify-between py-4 text-neutral-400">
                 <div
                     onClick={() =>

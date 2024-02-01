@@ -29,7 +29,7 @@ const Header = ({ children, className }: HeaderProps) => {
             )}
         >
             <div className="mb-4 flex justify-between">
-                <div className="hidden md:flex gap-x-2 items-center">
+                <div className="flex gap-x-2 items-center">
                     <button
                         onClick={() => router.back()}
                         className="rounded-full bg-black flex items-center justify-center hover:opacity-75 transition"
@@ -41,14 +41,6 @@ const Header = ({ children, className }: HeaderProps) => {
                         className="rounded-full bg-black flex items-center justify-center hover:opacity-75 transition"
                     >
                         <RxCaretRight size={35} />
-                    </button>
-                </div>
-                <div className="flex md:hidden gap-x-2 items-center">
-                    <button className="rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition">
-                        <HiHome size={20} className="text-black" />
-                    </button>
-                    <button className="rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition">
-                        <BiSearch size={20} className="text-black" />
                     </button>
                 </div>
                 {user ? (

@@ -26,7 +26,7 @@ const AuthModal = () => {
 
     if (isLoading)
         return (
-            <div className="grid place-items-center z-10 fixed inset-0 bg-neutral-900">
+            <div className="grid place-items-center z-50 fixed inset-0 bg-neutral-900">
                 <BounceLoader color="#22c55e" size={40} />
             </div>
         );

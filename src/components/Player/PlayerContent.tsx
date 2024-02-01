@@ -99,35 +99,35 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
 
     return (
         <div className="h-full grid grid-cols-2 md:grid-cols-3">
-            <div className="flex gap-x-4 overflow-hidden rounded-md">
+            <div className="flex gap-x-4 rounded-md">
                 <MediaItem song={song} isOpen />
                 <LikeButton songId={song.id} />
             </div>
-            <div className="flex md:hidden justify-end items-center">
-                <div
-                    onClick={togglePlay}
-                    className="flex h-10 w-10 rounded-full bg-white cursor-pointer items-center justify-center"
-                >
-                    <Icon size={30} className="text-black" />
+            <div>
+                <div className="flex gap-x-6 justify-end items-center md:justify-center">
+                    <AiFillStepBackward
+                        onClick={() => changeSong(-1)}
+                        size={30}
+                        className="text-neutral-400 cursor-pointer hover:text-white transition"
+                    />
+                    <div
+                        onClick={togglePlay}
+                        className="flex h-10 w-10 rounded-full bg-white cursor-pointer items-center justify-center"
+                    >
+                        <Icon size={30} className="text-black" />
+                    </div>
+                    <AiFillStepForward
+                        onClick={() => changeSong(1)}
+                        size={30}
+                        className="text-neutral-400 cursor-pointer hover:text-white transition"
+                    />
                 </div>
-            </div>
-            <div className="hidden md:flex max-w-[722px] gap-x-6 items-center justify-center">
-                <AiFillStepBackward
-                    onClick={() => changeSong(-1)}
-                    size={30}
-                    className="text-neutral-400 cursor-pointer hover:text-white transition"
-                />
-                <div
-                    onClick={togglePlay}
-                    className="flex h-10 w-10 rounded-full bg-white cursor-pointer items-center justify-center"
-                >
-                    <Icon size={30} className="text-black" />
+                <div className="flex gap-x-6 justify-end items-center md:justify-center">
+                    {/* {Math.floor(sound.duration()! / 60)}:
+                    {Math.floor(sound.duration() % 60) === 0
+                        ? '00'
+                        : Math.floor(sound.duration() % 60)} */}
                 </div>
-                <AiFillStepForward
-                    onClick={() => changeSong(1)}
-                    size={30}
-                    className="text-neutral-400 cursor-pointer hover:text-white transition"
-                />
             </div>
             <div className="hidden md:flex justify-end">
                 <div className="flex gap-x-2 w-[120px] items-center">

@@ -6,10 +6,11 @@ import { twMerge } from 'tailwind-merge';
 import Box from '../Box';
 import SidebarItem from './SidebarItem';
 import Playlist from '../Playlist';
-import { Song } from '@/types';
 import usePlayer from '@/hooks/usePlayer';
 import HomeIcon from '../Icons/HomeIcon';
 import SearchIcon from '../Icons/SearchIcon';
+
+import useSidebar from '@/hooks/useSidebar';
 
 interface SidebarPros {
     children: React.ReactNode;
@@ -17,7 +18,9 @@ interface SidebarPros {
 
 const Sidebar = ({ children }: SidebarPros) => {
     const pathname = usePathname();
+
     const player = usePlayer();
+    const sidebar = useSidebar();
 
     const routes = [
         {
@@ -37,11 +40,16 @@ const Sidebar = ({ children }: SidebarPros) => {
     return (
         <div
             className={twMerge(
-                'flex h-full',
+                'flex h-full overflow-x-hidden',
                 player.activeSong && 'h-[calc(100%-80px)]'
             )}
         >
-            <div className="flex flex-col p-2 gap-y-2 transition">
+            <div
+                className={twMerge(
+                    'md:w-auto flex flex-col p-2 gap-y-2 transition',
+                    sidebar.isOpen && 'w-full'
+                )}
+            >
                 <Box>
                     <div className="flex flex-col gap-y-4 px-5 py-4">
                         {routes.map((item) => (
@@ -53,7 +61,14 @@ const Sidebar = ({ children }: SidebarPros) => {
                     <Playlist />
                 </Box>
             </div>
-            <main className="w-full md:py-2 md:pr-2">{children}</main>
+            <main
+                className={twMerge(
+                    'md:block w-full py-2 pr-2',
+                    sidebar.isOpen && 'hidden'
+                )}
+            >
+                {children}
+            </main>
         </div>
     );
 };

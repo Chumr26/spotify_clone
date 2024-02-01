@@ -14,8 +14,11 @@ const SearchContent = ({ songs }: { songs: Song[] }) => {
     return (
         <div className="flex flex-col gap-y-2 px-6">
             {songs.map((song) => (
-                <div key={song.id} className="flex items-center gap-x-4">
-                    <div className="flex-1">
+                <div
+                    key={song.id}
+                    className="flex items-center justify-between gap-x-4"
+                >
+                    <div className="overflow-x-hidden w-full">
                         <MediaItem
                             isOpen
                             key={song.id}
