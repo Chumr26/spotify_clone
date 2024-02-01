@@ -7,6 +7,7 @@ import { PiUploadSimpleBold } from 'react-icons/pi';
 import LibraryIcon from '@/components/Icons/LibraryIcon';
 import useAuthModal from '@/hooks/useAuthModal';
 import useUploadModal from '@/hooks/useUploadModal';
+import UploadButton from '@/components/UploadButton';
 
 interface LikedListProps {
     name: string;
@@ -34,14 +35,8 @@ const LikedList = ({ name, href }: LikedListProps) => {
         >
             <LibraryIcon className="w-10 md:w-14 ml-2" />
             <p className="font-medium py-5">{name}</p>
-            <div
-                onClick={(e) => {
-                    e.stopPropagation();
-                    handleUpload();
-                }}
-                className="absolute right-5 p-4 flex items-center justify-center transition opacity-0 rounded-full bg-green-500 drop-shadow-md group-hover:opacity-100 hover:scale-110"
-            >
-                <PiUploadSimpleBold size={20} className="text-black" />
+            <div className="absolute right-5 flex items-center justify-center transition opacity-0 rounded-full bg-green-500 drop-shadow-md group-hover:opacity-100 hover:scale-110">
+                <UploadButton size={26} className="hover:opacity-100" />
             </div>
         </button>
     );
