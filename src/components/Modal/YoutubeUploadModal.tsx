@@ -71,7 +71,7 @@ const YoutubeUploadModal = () => {
     };
 
     const handleChange = (open: boolean) => {
-        if (!open) {
+        if (!open && !formLoading) {
             handleClose();
         }
     };
@@ -181,23 +181,30 @@ const YoutubeUploadModal = () => {
                 <Input
                     id="url"
                     placeholder="Url"
+                    disabled={formLoading}
                     {...register('url', { required: true })}
                 />
                 <Input
                     id="title"
                     placeholder="Title"
+                    disabled={formLoading}
                     {...register('title', { required: true })}
                 />
                 <Input
                     id="author"
                     placeholder="Author"
+                    disabled={formLoading}
                     {...register('author', { required: true })}
                 />
                 <div className="flex flex-col items-center">
                     <p className="pb-1">Select a poster</p>
                     <Button
                         onClick={handleFetchPoster}
-                        className="w-full bg-neutral-200 flex justify-center"
+                        disabled={formLoading || posterLoading}
+                        className={`w-full bg-neutral-200 flex justify-center ${
+                            (formLoading || posterLoading) &&
+                            'cursor-not-allowed'
+                        }`}
                     >
                         {posterLoading ? (
                             <BounceLoader size={20} />
@@ -205,17 +212,22 @@ const YoutubeUploadModal = () => {
                             'Suggest posters'
                         )}
                     </Button>
-                    <PosterOption posters={posters} />
+                    <PosterOption posters={posters} formLoading={formLoading} />
                     <p>or</p>
                     <Input
                         id="poster"
                         type="file"
                         accept="image/*"
+                        disabled={formLoading}
                         {...register('poster')}
                         className="cursor-pointer"
                     />
                 </div>
-                <Button type="submit" className="flex justify-center">
+                <Button
+                    type="submit"
+                    disabled={formLoading}
+                    className="flex justify-center"
+                >
                     {formLoading ? <BounceLoader size={24} /> : 'Upload'}
                 </Button>
                 {Object.keys(errors).map((field) => (

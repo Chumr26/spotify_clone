@@ -1,15 +1,22 @@
 import Input from '../Input';
 
-const PosterOption = ({ posters }: { posters: string[] }) => {
+const PosterOption = ({
+    posters,
+    formLoading,
+}: {
+    posters: string[];
+    formLoading: boolean;
+}) => {
     return (
         <div className="flex justify-between">
             {posters.map((posterUrl) => (
                 <label key={posterUrl}>
                     <Input
-                        className="opacity-0 peer"
+                        className="opacity-0 disabled:opacity-0 peer"
                         type="radio"
                         name="poster"
                         value={posterUrl}
+                        disabled={formLoading}
                     />
                     <img
                         className="border-4 border-transparent peer-checked:border-green-500 rounded-lg cursor-pointer h-[200px] w-[200px] object-cover"
