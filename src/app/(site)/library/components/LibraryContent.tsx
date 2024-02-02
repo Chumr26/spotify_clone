@@ -21,7 +21,7 @@ const LibraryContent = ({ songs }: { songs: Song[] }) => {
         <div className="flex flex-col gap-y-2 p-6">
             {songs.map((song) => (
                 <div key={song.id} className="flex items-center gap-x-4">
-                    <div className="flex-1">
+                    <div className="flex-1 max-w-40 md:max-w-full">
                         <MediaItem song={song} handleClick={onPlay} isOpen />
                     </div>
                     <div className="flex gap-x-10 text-neutral-400 transition">
