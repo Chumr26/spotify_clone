@@ -10,7 +10,7 @@ import MediaItem from '../MediaItem';
 import LikeButton from '../LikeButton';
 import Slider from './Slider';
 import usePlayer from '@/hooks/usePlayer';
-import Seekbar from './Seekbar';
+// import Seekbar from './Seekbar';
 
 const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
     const player = usePlayer();
