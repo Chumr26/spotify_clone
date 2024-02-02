@@ -1,9 +1,11 @@
-import { FaUserAlt } from 'react-icons/fa';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import type { User } from '@supabase/auth-helpers-nextjs';
-import toast from 'react-hot-toast';
+
+import { FaUserAlt } from 'react-icons/fa';
 import * as HoverCard from '@radix-ui/react-hover-card';
+import toast from 'react-hot-toast';
 
 import Button from '../Button';
 import usePlayer from '@/hooks/usePlayer';
@@ -12,6 +14,7 @@ const Account = ({ user }: { user: User }) => {
     const supabaseClient = useSupabaseClient();
     const router = useRouter();
 
+    const [isActive, setIsActive] = useState(false);
     const player = usePlayer();
 
     const handleLogout = async () => {
@@ -38,7 +41,10 @@ const Account = ({ user }: { user: User }) => {
             <HoverCard.Root openDelay={100} closeDelay={100}>
                 <HoverCard.Trigger>
                     {user.user_metadata.avatar_url ? (
-                        <div className="relative h-[40px] w-[40px] rounded-full overflow-hidden border-2 border-white border-opacity-80 drop-shadow-sm hover:border-opacity-100 transition">
+                        <div
+                            onClick={() => setIsActive((preState) => !preState)}
+                            className="relative h-[40px] w-[40px] rounded-full overflow-hidden border-2 border-white border-opacity-80 drop-shadow-sm hover:border-opacity-100 transition"
+                        >
                             <img
                                 src={user.user_metadata.avatar_url}
                                 alt="User image"
@@ -50,7 +56,7 @@ const Account = ({ user }: { user: User }) => {
                         </Button>
                     )}
                 </HoverCard.Trigger>
-                <HoverCard.Portal>
+                <HoverCard.Portal forceMount={isActive || undefined}>
                     <HoverCard.Content sideOffset={5}>
                         <div className="bg-neutral-900 w-auto p-4 rounded-lg mr-3">
                             <p>{user.user_metadata.preferred_username}</p>

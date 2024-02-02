@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 import { Song } from '@/types';
@@ -23,25 +22,19 @@ const MediaItem = ({ song, handleClick, isOpen }: MediaItemProps) => {
             onClick={() => {
                 handleClick?.(song, songUrl!);
             }}
-            className="overflow-hidden max-w-52 md:max-w-full flex items-center gap-x-3 p-2 rounded-md cursor-pointer hover:bg-neutral-800/50"
+            className="overflow-hidden max-w-full flex items-center gap-x-3 p-2 rounded-md cursor-pointer hover:bg-neutral-800/50"
         >
-            <div className="relative rounded-md min-h-[48px] min-w-[48px] overflow-x-hidden">
-                <Image
-                    fill
+            <div className="relative rounded-md h-[48px] min-w-[48px] w-[48px] overflow-x-hidden">
+                <img
                     src={posterUrl!}
-                    sizes="auto"
-                    className={
-                        posterUrl?.includes('img.youtube.com')
-                            ? 'object-cover'
-                            : undefined
-                    }
+                    className={'w-full h-full object-cover'}
                     alt="Media poster"
                 />
             </div>
             {isOpen && (
                 <div className="flex flex-col gap-y-1 overflow-hidden">
                     <p className="truncate">{song.title}</p>
-                    <p className="text-neutral-400 text-sm">{song.author}</p>
+                    <p className="text-neutral-400 text-sm truncate">{song.author}</p>
                 </div>
             )}
         </div>
