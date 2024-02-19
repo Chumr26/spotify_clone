@@ -42,9 +42,9 @@ const MobilePlayer = ({
                     <SongItem song={song} />
                 </div>
             </div>
-            <div className="m-10 flex flex-col gap-y-20">
+            <div className="m-10 flex flex-col">
                 <SeekSlider sound={sound} />
-                <div className=" my-0 mx-auto flex flex-row items-center gap-x-20">
+                <div className="mt-3 mx-auto flex flex-row items-center gap-x-20">
                     <TiArrowLoop
                         onClick={() => {
                             setIsLoop(!isLoop);
