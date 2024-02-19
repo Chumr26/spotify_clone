@@ -12,6 +12,7 @@ import VolumeSlider from './VolumeSlider';
 import usePlayer from '@/hooks/usePlayer';
 import SeekSlider from './SeekSlider';
 import MobilePlayer from './MobilePlayer';
+import { TiArrowLoop, TiArrowShuffle } from 'react-icons/ti';
 
 const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
     const player = usePlayer();
@@ -149,6 +150,14 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
             <div className="mt-2 md:-mt-2">
                 <SeekSlider sound={sound} />
                 <div className="hidden mt-2 md:flex gap-x-6 justify-end items-center md:justify-center">
+                    <TiArrowLoop
+                        onClick={() => {
+                            setIsLoop(!isLoop);
+                            setIsShuffle(false);
+                        }}
+                        className={`${isLoop && 'text-green-500'}`}
+                        size={22}
+                    />
                     <AiFillStepBackward
                         onClick={() => changeSong(-1)}
                         size={30}
@@ -164,6 +173,14 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
                         onClick={() => changeSong(1)}
                         size={30}
                         className="text-neutral-400 cursor-pointer hover:text-white transition"
+                    />
+                    <TiArrowShuffle
+                        onClick={() => {
+                            setIsShuffle(!isShuffle);
+                            setIsLoop(false);
+                        }}
+                        className={`${isShuffle && 'text-green-500'}`}
+                        size={20}
                     />
                 </div>
             </div>
