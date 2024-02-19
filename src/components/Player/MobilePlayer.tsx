@@ -1,8 +1,7 @@
 import { PiCaretDownBold } from 'react-icons/pi';
-import { TiArrowLoop } from 'react-icons/ti';
+import { TiArrowLoop, TiArrowShuffle } from 'react-icons/ti';
 import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
 import { IconType } from 'react-icons';
-import { useState } from 'react';
 
 import { Song } from '@/types';
 import SongItem from '../SongItem';
@@ -17,6 +16,8 @@ interface MobilePlayerProps {
     Icon: IconType;
     isLoop: boolean;
     setIsLoop: (isLoop: boolean) => void;
+    isShuffle: boolean;
+    setIsShuffle: (isShuffle: boolean) => void;
 }
 
 const MobilePlayer = ({
@@ -28,6 +29,8 @@ const MobilePlayer = ({
     Icon,
     isLoop,
     setIsLoop,
+    isShuffle,
+    setIsShuffle,
 }: MobilePlayerProps) => {
     return (
         <div className="flex flex-col justify-between bg-neutral-900 fixed inset-0">
@@ -41,13 +44,24 @@ const MobilePlayer = ({
             </div>
             <div className="m-10 flex flex-col gap-y-20">
                 <SeekSlider sound={sound} />
-                <TiArrowLoop
-                    onClick={() => {
-                        setIsLoop(!isLoop);
-                    }}
-                    className={`my-0 mx-auto ${isLoop && 'text-green-500'}`}
-                    size={30}
-                />
+                <div className=" my-0 mx-auto flex flex-row items-center gap-x-20">
+                    <TiArrowLoop
+                        onClick={() => {
+                            setIsLoop(!isLoop);
+                            setIsShuffle(false);
+                        }}
+                        className={`${isLoop && 'text-green-500'}`}
+                        size={30}
+                    />
+                    <TiArrowShuffle
+                        onClick={() => {
+                            setIsShuffle(!isShuffle);
+                            setIsLoop(false);
+                        }}
+                        className={`${isShuffle && 'text-green-500'}`}
+                        size={28}
+                    />
+                </div>
                 <div className="flex mt-2 gap-x-6 justify-center items-center">
                     <AiFillStepBackward
                         onClick={() => changeSong(-1)}

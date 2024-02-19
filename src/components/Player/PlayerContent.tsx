@@ -22,30 +22,46 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [mobilePlayderOpen, setMobilePlayderOpen] = useState(false);
     const [isLoop, setIsLoop] = useState(false);
+    const [isShuffle, setIsShuffle] = useState(false);
 
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
     const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
 
     const changeSong = async (position: 1 | -1) => {
         if (player.ids.length === 0) return;
+        let nextIndex;
 
-        const currentIndex = player.ids.findIndex(
-            (id) => id === player.activeSong?.id
-        );
+        // shuffle mode
+        if (isShuffle) {
+            while (true) {
+                const randomIndex = Math.floor(
+                    Math.random() * player.ids.length
+                );
+                if (!player.playedIds.includes(player.ids[randomIndex])) {
+                    player.setPlayedIds(player.ids[randomIndex]);
+                    nextIndex = randomIndex;
+                    break;
+                }
+            }
+        } else {
+            const currentIndex = player.ids.findIndex(
+                (id) => id === player.activeSong?.id
+            );
 
-        // const nextIndex =
-        //     currentIndex + position < 0
-        //         ? player.ids.length - 1
-        //         : currentIndex + position;
-        // const nextId = player.ids[nextIndex] || player.ids[0];
+            // const nextIndex =
+            //     currentIndex + position < 0
+            //         ? player.ids.length - 1
+            //         : currentIndex + position;
+            // const nextId = player.ids[nextIndex] || player.ids[0];
 
-        let nextIndex = currentIndex + position;
-        // if nextIndex ouside a array indexs then nextIndex is the first index in array
-        if (nextIndex >= player.ids.length) {
-            nextIndex = 0;
-            // if currentIndex is 0 then nextIndex is the last index in array
-        } else if (nextIndex < 0) {
-            nextIndex = player.ids.length - 1;
+            nextIndex = currentIndex + position;
+            // if nextIndex ouside a array indexs then nextIndex is the first index in array
+            if (nextIndex >= player.ids.length) {
+                nextIndex = 0;
+                // if currentIndex is 0 then nextIndex is the last index in array
+            } else if (nextIndex < 0) {
+                nextIndex = player.ids.length - 1;
+            }
         }
 
         const nextSong = await supabase
@@ -174,6 +190,8 @@ const PlayerContent = ({ songUrl, song }: { songUrl: string; song: Song }) => {
                     Icon={Icon}
                     isLoop={isLoop}
                     setIsLoop={setIsLoop}
+                    isShuffle={isShuffle}
+                    setIsShuffle={setIsShuffle}
                 />
             ) : undefined}
         </div>
