@@ -1,11 +1,11 @@
 import * as RadixSlider from '@radix-ui/react-slider';
 
-interface SliderProps {
+interface VolumeSliderProps {
     value?: number;
     onChange?: (value: number) => void;
 }
 
-const Slider = ({ value = 1, onChange }: SliderProps) => {
+const VolumeSlider = ({ value = 1, onChange }: VolumeSliderProps) => {
     const handleChange = (value: number[]) => onChange?.(value[0]);
     return (
         <RadixSlider.Root
@@ -23,4 +23,4 @@ const Slider = ({ value = 1, onChange }: SliderProps) => {
     );
 };
 
-export default Slider;
+export default VolumeSlider;
