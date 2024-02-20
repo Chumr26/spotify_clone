@@ -1,15 +1,15 @@
-import getSongsByTitle from '@/actions/getSongsByTitle';
+import getSongsByTitleOrAuthor from '@/actions/getSongsByTitleOrAuthor';
 import Box from '@/components/Box';
 import Header from '@/components/Header';
 import SearchInput from './components/SearchInput';
 import SearchContent from './components/SearchContent';
 
 interface SearchPageProps {
-    searchParams: { title: string };
+    searchParams: { q: string };
 }
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
-    const songs = await getSongsByTitle(searchParams.title);
+    const songs = await getSongsByTitleOrAuthor(searchParams.q);
 
     return (
         <Box className="h-full overflow-y-auto no-scrollbar">

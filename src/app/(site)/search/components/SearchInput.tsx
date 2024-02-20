@@ -13,7 +13,7 @@ const SearchInput = () => {
     const router = useRouter();
 
     useEffect(() => {
-        router.push(`/search?title=${debouncedValue}`);
+        router.push(`/search?q=${debouncedValue}`);
     }, [debouncedValue]);
 
     return (
