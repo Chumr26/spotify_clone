@@ -1,17 +1,22 @@
 import Input from '../Input';
 
+interface PosterOptionProps {
+    posters: string[];
+    formLoading: boolean;
+    setIsPosterSelected: (isCheck: boolean) => void;
+}
+
 const PosterOption = ({
     posters,
     formLoading,
-}: {
-    posters: string[];
-    formLoading: boolean;
-}) => {
+    setIsPosterSelected,
+}: PosterOptionProps) => {
     return (
         <div className="flex justify-between">
             {posters.map((posterUrl) => (
                 <label key={posterUrl}>
                     <Input
+                        onChange={() => setIsPosterSelected(true)}
                         className="opacity-0 disabled:opacity-0 peer"
                         type="radio"
                         name="poster"

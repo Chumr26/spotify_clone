@@ -8,13 +8,13 @@ import uniqid from 'uniqid';
 import useYoutubeUploadModal from '@/hooks/useYoutubeUploadModal';
 import useUploadModal from '@/hooks/useUploadModal';
 import fetchSongApi from '@/helper/fetchSongApi';
-import fetchPosterApi from '@/helper/fetchPosterApi';
+import fetchSpotifyApi from '@/helper/fetchSpotifyApi';
 import sanitizer from '@/helper/sanitizer';
 
 import Modal from '.';
 import Input from '../Input';
 import Button from '../Button';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import PosterOption from './PosterOption';
 
 const YoutubeUploadModal = () => {
@@ -41,33 +41,50 @@ const YoutubeUploadModal = () => {
     const [posterLoading, setPosterLoading] = useState(false);
     const [warnings, setWarnings] = useState<string>();
     const [posters, setPosters] = useState<string[]>([]);
+    const songBlob = useRef<Blob | undefined>();
+    const [isPosterSelected, setIsPosterSelected] = useState(false);
 
-    const handleFetchPoster = async () => {
+    const handleFetchSongInfo = async () => {
         setPosterLoading(true);
-        const titleValue = (
-            document.getElementById('title') as HTMLInputElement
-        ).value;
-        const authorValue = (
-            document.getElementById('author') as HTMLInputElement
-        ).value;
+
+        const titleInput = document.querySelector(
+            'input[id="title"]'
+        ) as HTMLInputElement;
+        const authorInput = document.querySelector(
+            'input[id="author"]'
+        ) as HTMLInputElement;
+
         const urlValue = (document.getElementById('url') as HTMLInputElement)
             .value;
 
         if (!urlValue) {
+            setPosterLoading(false);
             return setWarnings('Missing url.');
-        } else if (!titleValue) {
-            return setWarnings('Missing title.');
-        } else if (!authorValue) {
-            return setWarnings('Missing author.');
-        }
-        const data = await fetchPosterApi(`${titleValue} ${authorValue}`);
+        } else setWarnings('');
+        //setup song data
         const sanitizedUrl = sanitizer(urlValue);
+
+        if (sanitizedUrl.error) return setWarnings('Invalid youtube link.');
+        const youtubeApiRes = await fetchSongApi(sanitizedUrl.videoId!);
+        if (youtubeApiRes?.status !== 'ok') {
+            setPosterLoading(false);
+            return setWarnings(youtubeApiRes?.msg);
+        }
+        songBlob.current = await fetch(youtubeApiRes.link).then((res) =>
+            res.blob()
+        );
+
+        const data = await fetchSpotifyApi(youtubeApiRes.title);
+
         if (sanitizedUrl.error) return setWarnings('Invalid youtube link.');
         setPosterLoading(false);
         setPosters([
             data.tracks.items[0].data.albumOfTrack.coverArt.sources[0].url,
             `https://img.youtube.com/vi/${sanitizedUrl.videoId}/maxresdefault.jpg`,
         ]);
+        titleInput.value = data.tracks.items[0].data.name;
+        authorInput.value =
+            data.tracks.items[0].data.artists.items[0].profile.name;
     };
 
     const handleChange = (open: boolean) => {
@@ -90,13 +107,6 @@ const YoutubeUploadModal = () => {
             return;
         }
 
-        //setup song data
-        const sanitizedUrl = sanitizer(values.url);
-        if (sanitizedUrl.error) return setWarnings('Invalid youtube link.');
-        const data = await fetchSongApi(sanitizedUrl.videoId!);
-        if (data?.status !== 'ok') return setWarnings(data?.msg);
-        const songBlob = await fetch(data!.link).then((res) => res.blob());
-
         const uniqueId = uniqid();
 
         try {
@@ -104,7 +114,7 @@ const YoutubeUploadModal = () => {
             const { data: songData, error: songError } =
                 await supabaseClient.storage
                     .from('songs')
-                    .upload(`song-${uniqueId}`, songBlob, {
+                    .upload(`song-${uniqueId}`, songBlob.current!, {
                         cacheControl: '3600',
                         upsert: false,
                     });
@@ -180,7 +190,7 @@ const YoutubeUploadModal = () => {
             >
                 <Input
                     id="url"
-                    placeholder="Url"
+                    placeholder="Youtube Url"
                     disabled={formLoading}
                     {...register('url', { required: true })}
                 />
@@ -188,18 +198,20 @@ const YoutubeUploadModal = () => {
                     id="title"
                     placeholder="Title"
                     disabled={formLoading}
+                    className={`${!songBlob.current && 'hidden'}`}
                     {...register('title', { required: true })}
                 />
                 <Input
                     id="author"
                     placeholder="Author"
                     disabled={formLoading}
+                    className={`${!songBlob.current && 'hidden'}`}
                     {...register('author', { required: true })}
                 />
+
                 <div className="flex flex-col items-center">
-                    <p className="pb-1">Select a poster</p>
                     <Button
-                        onClick={handleFetchPoster}
+                        onClick={handleFetchSongInfo}
                         disabled={formLoading || posterLoading}
                         className={`w-full bg-neutral-200 flex justify-center ${
                             (formLoading || posterLoading) &&
@@ -209,23 +221,31 @@ const YoutubeUploadModal = () => {
                         {posterLoading ? (
                             <BounceLoader size={20} />
                         ) : (
-                            'Suggest posters'
+                            'Get song'
                         )}
                     </Button>
-                    <PosterOption posters={posters} formLoading={formLoading} />
-                    <p>or</p>
-                    <Input
-                        id="poster"
-                        type="file"
-                        accept="image/*"
-                        disabled={formLoading}
-                        {...register('poster')}
-                        className="cursor-pointer"
+                    <PosterOption
+                        posters={posters}
+                        formLoading={formLoading}
+                        setIsPosterSelected={setIsPosterSelected}
                     />
+                    {!isPosterSelected && (
+                        <>
+                            <p className="my-2">or upload poster</p>
+                            <Input
+                                id="poster"
+                                type="file"
+                                accept="image/*"
+                                disabled={formLoading || posterLoading}
+                                {...register('poster')}
+                                className="cursor-pointer"
+                            />
+                        </>
+                    )}
                 </div>
                 <Button
                     type="submit"
-                    disabled={formLoading}
+                    disabled={formLoading || posterLoading}
                     className="flex justify-center"
                 >
                     {formLoading ? <BounceLoader size={24} /> : 'Upload'}

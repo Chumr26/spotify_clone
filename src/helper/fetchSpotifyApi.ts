@@ -1,4 +1,4 @@
-const fetchPosterApi = async (query: string) => {
+const fetchSpotifyApi = async (query: string) => {
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SPOTIFY_URL}/search?type=tracks&limit=1&q=${query}`,
         {
@@ -11,4 +11,4 @@ const fetchPosterApi = async (query: string) => {
     );
     return await res.json();
 };
-export default fetchPosterApi;
+export default fetchSpotifyApi;
