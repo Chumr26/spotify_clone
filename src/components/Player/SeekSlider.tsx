@@ -38,7 +38,7 @@ const SeekSlider = ({ sound }: SeekSliderProps) => {
                     <RadixSlider.Range className="absolute bg-green-500 rounded-full h-full" />
                 </RadixSlider.Track>
             </RadixSlider.Root>
-            <p className="hidden md:block">{convertstm(sound?.duration()!)}</p>
+            <p className="hidden md:block">{convertstm(sound?.duration()! || 0)}</p>
         </div>
     );
 };
